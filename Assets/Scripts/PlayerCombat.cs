@@ -6,29 +6,16 @@ using UnityEngine.UI;
 public class PlayerCombat : MonoBehaviour
 {
     public int PlayerHitpoints = 100;
-    private Animator animator;
-    public GameObject hitpointsUI;
+    public Animator animator;
+    public Text hitpointsUI;
     public GameObject DeadMenu;
     public static bool collisionEnemy;
    
-    private void Awake()
+
+    void Update()   
     {
-        animator = GetComponent<Animator>();
-    }
 
-    void Update()
-    {
-        // Attack fungerar endast visuellt just nu
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    Attack();
-        //}
-
-        if (collisionEnemy)
-        {
-            PlayerHitpoints = PlayerHitpoints - EnemyScript.enemyAttack;
-        }
-
+        HitByEnemy();
 
         if (isDead())
         {
@@ -36,15 +23,9 @@ public class PlayerCombat : MonoBehaviour
             Invoke("GameOver", 0.5f);
         }
 
-        hitpointsUI.GetComponent<Text>().text = "HP: " + PlayerHitpoints;
+        hitpointsUI.text = "HP: " + PlayerHitpoints;
     }
     
-
-    //metod för attack, inte färdig
-    //void Attack()
-    //{
-    //    animator.SetTrigger("Attack");
-    //}
 
     /// <summary>
     /// Känner av ifall spelaren kolliderar med en enemy
@@ -57,6 +38,21 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Kollar ifall spelaren har kolliderat med en enemy och isåfall förlorar HitPoints
+    /// </summary>
+    public void HitByEnemy()
+    {
+        if (collisionEnemy)
+        {
+            PlayerHitpoints = PlayerHitpoints - EnemyScript.enemyAttack;
+        }
+        else return;
+    }
+
+    /// <summary>
+    /// Kollar om spelaren är död
+    /// </summary>
     public bool isDead()
     {
         if(PlayerHitpoints == 0) return true;
@@ -64,7 +60,7 @@ public class PlayerCombat : MonoBehaviour
     }
 
     /// <summary>
-    /// GameOver metod nör spelaren dör
+    /// sätter igång GameOver menyn.
     /// </summary>
     public void GameOver()
     {

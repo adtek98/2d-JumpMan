@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,54 +6,27 @@ using UnityEngine.UI;
 
 public class PlayerScore : MonoBehaviour
 {
-    public GameObject timerUI;
-    public GameObject playerScoreTime;
-    public GameObject wonGameMenu;
-    float timer = 0.0f;
-    bool wonLevel;
-    string wonLevelTime;
-
-    
+    public Text timerUI;
+    private float timer = 0.0f;
 
     void Update()
     {
         timer += Time.deltaTime;
         // Uppdaterar tiden i PlayerUI
-        timerUI.GetComponent<Text>().text = NicerTimer(timer);
-
-        // if statement om spelaren klarat av spelet.
-        if (wonLevel)
-        {
-            wonLevelTime = NicerTimer(timer) + " minutes!";
-            playerScoreTime.GetComponent<Text>().text = wonLevelTime;
-            Time.timeScale = 0f;
-            wonGameMenu.SetActive(true);
-            wonLevel = false;
-        }
+        timerUI.text = NicerTimer(timer);
     }
 
     /// <summary>
-    /// Håller koll på när spelaren kommmer i mål.
+    /// Metod för göra om tiden till ett snyggare format {00:00}
     /// </summary>
-    public void OnCollisionEnter2D(Collision2D collision)
+    private string NicerTimer(float timer)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            wonLevel = true;
-        }
-    }
-
-    /// <summary>
-    /// Gör om tiden i sekunder till ett snyggare format i minuter och sekunder.
-    /// </summary>
-    /// <param name="timer"></param>
-    /// <returns></returns>
-    public string NicerTimer(float timer)
-    {
-        int Minutes = Mathf.FloorToInt(timer/60);
-        int Seconds = Mathf.FloorToInt(timer%60);
+        int Minutes = Mathf.FloorToInt(timer / 60);
+        int Seconds = Mathf.FloorToInt(timer % 60);
         string Time = string.Format("{0:00}:{1:00}", Minutes, Seconds);
-        
+
         return Time;
     }
+
+
 }

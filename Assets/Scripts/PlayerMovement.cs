@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+// Har inte gjort tester för PlayerMovement eftersom jag tycker det är mest logiskt att testa movment i själva spelet.
 public class PlayerMovement : MonoBehaviour
 {
     public float speed;
     public float jumpForce;
     public LayerMask groundLayer;
-    public LayerMask wallLayer;
     private Rigidbody2D body;
     private Animator animator;
     private BoxCollider2D boxCollider;
@@ -71,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Metod för att få spelaren att hoppa
+    /// Metod för att få Player att hoppa
     /// </summary>
     public void Jump()
     {
@@ -80,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Vänder spelaren åt rätt håll beroende på spelarens input
+    /// Vänder Player åt rätt håll beroende på spelarens input
     /// </summary>
     /// <param name="horizontalInput">Spelarens input (Höger, Vänster)</param>
     public void Direction(float horizontalInput)
@@ -96,9 +95,9 @@ public class PlayerMovement : MonoBehaviour
     }
     
     /// <summary>
-    /// Håller koll på om spelaren står på marken
+    /// Kollar om Player står på Ground
     /// </summary>
-    /// <returns>true om spelar står på marken</returns>
+    /// <returns>true om spelar står på Ground</returns>
     public bool IsGrounded()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
